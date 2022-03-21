@@ -14,13 +14,7 @@ public class CategoryPost
     [HttpPost]
     public static IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
     {
-        var category = new Category(categoryRequest.Name)
-        {
-            CreatedBy = "test",
-            CreatedOn = DateTime.Now,
-            EditedBy = "test",
-            EditedOn = DateTime.Now,
-        };
+        var category = new Category(categoryRequest.Name, "test", "test");
 
         if (!category.IsValid)
             return Results.BadRequest(category.Notifications);
