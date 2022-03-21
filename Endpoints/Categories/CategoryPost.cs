@@ -4,20 +4,30 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IWantApp.Endpoints.Categories;
 
-public class CategoryPut
+public class CategoryPost
 {
-    public static string Template => "/categories/{id}";
-    public static string[] Methods => new string[] { HttpMethod.Put.ToString() };
+    public static string Template => "/categories";
+    public static string[] Methods => new string[] { HttpMethod.Post.ToString() };
     public static Delegate Handle => Action;
 
-    public static IResult Action([FromRoute] Guid id, CategoryRequest categoryRequest, ApplicationDbContext context)
-    {
-        var category = context.Categories.Where(c => c.Id == id).FirstOrDefault();
-        category.Name = categoryRequest.Name;
-        category.Active = categoryRequest.Active;
 
+    [HttpPost]
+    public static IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
+    {
+        var category = new Category(categoryRequest.Name)
+        {
+            CreatedBy = "test",
+            CreatedOn = DateTime.Now,
+            EditedBy = "test",
+            EditedOn = DateTime.Now,
+        };
+
+        if (!category.IsValid)
+            return Results.BadRequest(category.Notifications);
+        
+        context.Categories.Add(category);
         context.SaveChanges();
 
-        return Results.Ok();
+        return Results.Created($"/categories/{category.Id}", category.Id);
     }
 }

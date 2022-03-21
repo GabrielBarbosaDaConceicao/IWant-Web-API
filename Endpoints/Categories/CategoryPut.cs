@@ -1,27 +1,24 @@
 ﻿using IWantApp.Domain.Products;
 using IWantApp.Infra.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace IWantApp.Endpoints.Categories;
 
-public class CategoryPost
+public class CategoryPut
 {
-    public static string Template => "/categories";
-    public static string[] Methods => new string[] { HttpMethod.Post.ToString() };
+    public static string Template => "/categories/{id}";
+    public static string[] Methods => new string[] { HttpMethod.Put.ToString() };
     public static Delegate Handle => Action;
 
-    public static IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
+    [HttpPut]
+    public static IResult Action([FromRoute] Guid id, [FromBody]CategoryRequest categoryRequest, [FromServices]ApplicationDbContext context)
     {
-        var category = new Category
-        {
-            Name = categoryRequest.Name,
-            CreatedBy = "test",
-            CreatedOn = DateTime.Now,
-            EditedBy = "test",
-            EditedOn = DateTime.Now,
-        };
-        context.Categories.Add(category);
+        var category = context.Categories.Where(c => c.Id == id).FirstOrDefault();
+        category.Name = categoryRequest.Name;
+        category.Active = categoryRequest.Active;
+
         context.SaveChanges();
 
-        return Results.Created($"/categories/{category.Id}", category.Id);
+        return Results.Ok();
     }
 }
