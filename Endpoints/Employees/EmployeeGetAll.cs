@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
-using Dapper;
+﻿using IWantApp.Infra.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace IWantApp.Endpoints.Employees;
 
@@ -12,21 +11,8 @@ public class EmployeeGetAll
 
 
     [HttpGet]
-    public static IResult Action(int? page, int? rows, IConfiguration configuration)
+    public static IResult Action(int? page, int? rows, QueryAllUsersWithClaimName query)
     {
-        var db = new SqlConnection(configuration["ConnectionString:IWantDb"]);
-        var query =
-            @"select Email, ClaimValue as Name
-            from AspNetUsers u inner
-            join AspNetUserClaims c
-            on u.id = c.UserId and claimtype = 'Name'
-            order by name
-            OFFSET (@page -1 ) * @rows ROWS FETCH NEXT @rows ROWS ONLY";
-        var employees = db.Query<EmployeeResponse>(
-            query,
-            new { page, rows }
-               
-        );
-        return Results.Ok(employees);
+        return Results.Ok(query.Execute(page.Value, rows.Value));
     }
 }
