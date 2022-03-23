@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Dapper;
 
 namespace IWantApp.Endpoints.Employees;
 
@@ -13,17 +12,21 @@ public class EmployeeGetAll
 
 
     [HttpGet]
-    public static IResult Action(int page, int rows, UserManager<IdentityUser> userManager)
+    public static IResult Action(int? page, int? rows, IConfiguration configuration)
     {
-        var users = userManager.Users.Skip((page - 1) * rows).Take(rows).ToList();
-        var employees = new List<EmployeeResponse>();
-        foreach(var item in users)
-        {
-            var claims = userManager.GetClaimsAsync(item).Result;
-            var claimName = claims.FirstOrDefault(c => c.Type == "Name");
-            var userName = claimName != null ? claimName.Value : string.Empty;
-            employees.Add(new EmployeeResponse(item.Email, userName));
-        }
+        var db = new SqlConnection(configuration["ConnectionString:IWantDb"]);
+        var query =
+            @"select Email, ClaimValue as Name
+            from AspNetUsers u inner
+            join AspNetUserClaims c
+            on u.id = c.UserId and claimtype = 'Name'
+            order by name
+            OFFSET (@page -1 ) * @rows ROWS FETCH NEXT @rows ROWS ONLY";
+        var employees = db.Query<EmployeeResponse>(
+            query,
+            new { page, rows }
+               
+        );
         return Results.Ok(employees);
     }
 }
