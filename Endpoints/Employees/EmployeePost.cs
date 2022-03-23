@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using System.Collections.Generic;
 
 namespace IWantApp.Endpoints.Employees;
 
@@ -25,10 +24,10 @@ public class EmployeePost
         {
             new Claim("EmployeeCode", employeeRequest.EmployeeCode),
             new Claim("Name", employeeRequest.Name)
-        };  
+        };
 
        var claimResult =
-            userManager.AddClaimAsync(user,userClaims).Result;
+            userManager.AddClaimAsync(user, userClaims).Result;
 
         if (!claimResult.Succeeded)
             return Results.BadRequest(claimResult.Errors.First());
