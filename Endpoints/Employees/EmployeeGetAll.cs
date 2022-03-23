@@ -13,9 +13,9 @@ public class EmployeeGetAll
 
 
     [HttpGet]
-    public static IResult Action(UserManager<IdentityUser> userManager)
+    public static IResult Action(int page, int rows, UserManager<IdentityUser> userManager)
     {
-        var users = userManager.Users.ToList();
+        var users = userManager.Users.Skip((page - 1) * rows).Take(rows).ToList();
         var employees = new List<EmployeeResponse>();
         foreach(var item in users)
         {
