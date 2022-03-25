@@ -12,11 +12,11 @@ public class CategoryPost
     public static Delegate Handle => Action;
 
 
-    //[HttpPost]
+    [HttpPost]
     [Authorize]
     public static IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
     {
-        var category = new Category(categoryRequest.Name, "test", "test");
+        var category = new Category(categoryRequest.Name, "Test", "Test");
 
         if (!category.IsValid)
         {
