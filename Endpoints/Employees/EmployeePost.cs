@@ -27,7 +27,7 @@ public class EmployeePost
         };
 
        var claimResult =
-            userManager.AddClaimAsync(user, userClaims).Result;
+            userManager.AddClaimsAsync(user, userClaims).Result;
 
         if (!claimResult.Succeeded)
             return Results.BadRequest(claimResult.Errors.First());

@@ -13,6 +13,7 @@ public class EmployeeGetAll
     [HttpGet]
     public static IResult Action(int? page, int? rows, QueryAllUsersWithClaimName query)
     {
-        return Results.Ok(query.Execute(page.Value, rows.Value));
+        var result = query.Execute(page.Value, rows.Value);
+        return Results.Ok(result);
     }
 }
