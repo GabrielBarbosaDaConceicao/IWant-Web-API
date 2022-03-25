@@ -17,6 +17,7 @@ public class TokenPost
     public static string[] Methods => new string[] { HttpMethod.Post.ToString() };
     public static Delegate Handle => Action;
 
+    [HttpPost]
     [AllowAnonymous]
     public static IResult Action(LoginRequest loginRequest, IConfiguration configuration, UserManager<IdentityUser> userManager)
     {
