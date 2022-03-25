@@ -1,5 +1,6 @@
 ﻿using IWantApp.Domain.Products;
 using IWantApp.Infra.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IWantApp.Endpoints.Categories;
@@ -11,7 +12,8 @@ public class CategoryPost
     public static Delegate Handle => Action;
 
 
-    [HttpPost]
+    //[HttpPost]
+    [Authorize]
     public static IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
     {
         var category = new Category(categoryRequest.Name, "test", "test");

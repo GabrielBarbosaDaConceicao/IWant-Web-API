@@ -1,6 +1,7 @@
 ﻿using IWantApp.Domain.Products;
 using IWantApp.Endpoints.Security;
 using IWantApp.Infra.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -18,7 +19,8 @@ public class TokenPost
 
 
     [HttpPost]
-    public static IResult Action(LoginRequest loginRequest, UserManager<IdentityUser> userManager)
+    [AllowAnonymous]
+    public static IResult Action(LoginRequest loginRequest, IConfiguration configuration, UserManager<IdentityUser> userManager)
     {
         var user = userManager.FindByEmailAsync(loginRequest.Email).Result;
         if (user == null)
@@ -26,7 +28,7 @@ public class TokenPost
         if (!userManager.CheckPasswordAsync(user, loginRequest.Password).Result)
             Results.BadRequest();
 
-        var key = Encoding.ASCII.GetBytes("A@fderwfQQSDXCCer34");
+        var key = Encoding.ASCII.GetBytes(configuration["JwtBearerTokenSettings:SecretKey"]);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new Claim[]
@@ -34,9 +36,10 @@ public class TokenPost
                 new Claim(ClaimTypes.Email, loginRequest.Email),
             }),
             SigningCredentials =
-            new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-            Audience = "IWantApp",
-            Issuer = "Issuer"
+            new SigningCredentials(
+                new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+            Audience = configuration["JwtBearerTokenSettings:Audience"],
+            Issuer = configuration["JwtBearerTokenSettings:Issuer"]
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();
