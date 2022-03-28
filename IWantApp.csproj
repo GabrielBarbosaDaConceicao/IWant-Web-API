@@ -19,6 +19,7 @@
     <Using Include="System.IdentityModel.Tokens.Jwt"/>
     <Using Include="Microsoft.EntityFrameworkCore.Migrations"/>
     <Using Include="Microsoft.EntityFrameworkCore.Infrastructure"/>
+    <Using Include="Microsoft.AspNetCore.Diagnostics"/>
     
     <Using Include="IWantApp.Domain.Products"/>
     <Using Include="IWantApp.Endpoints.Categories"/>
