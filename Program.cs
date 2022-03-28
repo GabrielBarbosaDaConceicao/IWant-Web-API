@@ -28,8 +28,6 @@ builder.Services.AddAuthorization(options =>
         .Build();
     options.AddPolicy("EmployeePolicy", p =>
         p.RequireAuthenticatedUser().RequireClaim("EmployeeCode"));
-    options.AddPolicy("Employee005Policy", p =>
-        p.RequireAuthenticatedUser().RequireClaim("EmployeCode", "005"));
 });
 builder.Services.AddAuthentication(x =>
 {
@@ -41,6 +39,7 @@ builder.Services.AddAuthentication(x =>
     {
         ValidateActor = true,
         ValidateAudience = true,
+        ValidateIssuer = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         ClockSkew = TimeSpan.Zero,
