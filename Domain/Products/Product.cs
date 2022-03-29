@@ -30,7 +30,7 @@ public class Product : Entity
         var contract = new Contract<Product>()
             .IsNotNullOrEmpty(Name, "Name")
             .IsGreaterOrEqualsThan(Name, 3, "Name")
-            .IsNotNull(Category, "Category")
+            .IsNotNull(Category, "Category", "Category not found")
             .IsNotNullOrEmpty(Description, "Description")
             .IsGreaterOrEqualsThan(Description, 3, Description)
             .IsNotNullOrEmpty(CreatedBy, "CreatedBy")
