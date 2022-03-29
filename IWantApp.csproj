@@ -7,31 +7,31 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Using Include="Flunt.Notifications"/>
-    <Using Include="Microsoft.AspNetCore.Identity"/>
-    <Using Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore"/>
-    <Using Include="Microsoft.AspNetCore.Authentication.JwtBearer"/>
-    <Using Include="Microsoft.AspNetCore.Authorization"/>
-    <Using Include="Microsoft.IdentityModel.Tokens"/>
-    <Using Include="Microsoft.EntityFrameworkCore"/>
-    <Using Include="Microsoft.Data.SqlClient"/>
-    <Using Include="Microsoft.AspNetCore.Mvc"/>
-    <Using Include="System.IdentityModel.Tokens.Jwt"/>
-    <Using Include="Microsoft.EntityFrameworkCore.Migrations"/>
-    <Using Include="Microsoft.EntityFrameworkCore.Infrastructure"/>
-    <Using Include="Microsoft.AspNetCore.Diagnostics"/>
+    <Using Include="Flunt.Notifications" />
+    <Using Include="Microsoft.AspNetCore.Identity" />
+    <Using Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+    <Using Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <Using Include="Microsoft.AspNetCore.Authorization" />
+    <Using Include="Microsoft.IdentityModel.Tokens" />
+    <Using Include="Microsoft.EntityFrameworkCore" />
+    <Using Include="Microsoft.Data.SqlClient" />
+    <Using Include="Microsoft.AspNetCore.Mvc" />
+    <Using Include="System.IdentityModel.Tokens.Jwt" />
+    <Using Include="Microsoft.EntityFrameworkCore.Migrations" />
+    <Using Include="Microsoft.EntityFrameworkCore.Infrastructure" />
+    <Using Include="Microsoft.AspNetCore.Diagnostics" />
     
-    <Using Include="IWantApp.Domain.Products"/>
-    <Using Include="IWantApp.Endpoints.Categories"/>
-    <Using Include="IWantApp.Infra.Data"/>
-    <Using Include="IWantApp.Endpoints.Categories.Security"/>
-    <Using Include="System.IdentityModel.Tokens.Jwt"/>
-    <Using Include="IWantApp.Endpoints.Security"/>
-    <Using Include="Dapper"/>
-    <Using Include="Flunt.Validations"/>
-    <Using Include="System.Text"/>
-    <Using Include="IWantApp.Endpoints.Employees"/>
-    <Using Include="System.Security.Claims"/>
+    <Using Include="IWantApp.Domain.Products" />
+    <Using Include="IWantApp.Endpoints.Categories" />
+    <Using Include="IWantApp.Infra.Data" />
+    <Using Include="IWantApp.Endpoints.Categories.Security" />
+    <Using Include="System.IdentityModel.Tokens.Jwt" />
+    <Using Include="IWantApp.Endpoints.Security" />
+    <Using Include="Dapper" />
+    <Using Include="Flunt.Validations" />
+    <Using Include="System.Text" />
+    <Using Include="IWantApp.Endpoints.Employees" />
+    <Using Include="System.Security.Claims" />
   </ItemGroup>
   
   <ItemGroup>
@@ -45,6 +45,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
+    <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.7.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
