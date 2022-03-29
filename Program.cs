@@ -1,5 +1,6 @@
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.UseSerilog((context, configuration) => {
@@ -87,11 +88,11 @@ app.Map("error", (HttpContext http) =>
     if (error != null)
     {
         if (error is SqlException)
-        {
             return Results.Problem(title: "Database out", statusCode: 500);
-        }
+        else if (error is BadHttpRequestException)
+            return Results.Problem(title: "Error to covert data", statusCode: 500);
     }
-
+       
     return Results.Problem(title: "An error ocurred", statusCode: 500);
 });
 app.Run();
